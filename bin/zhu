@@ -1,3 +1,26 @@
 #! /usr/bin/env node
 
 console.log("12333");
+
+//1 配制可执行的命令 commander
+
+const program = require("commander");
+//核心功能  1创建项目,2更改配制文件, 3 ui界面
+
+program
+  .command("create <app-name>")
+  .description("create a new project powered by zhu-cli-service")
+  .option("-f, --force", "overwrite target directory if it exists")
+  .action((name, cmd) => {
+    console.log("name", name);
+    console.log("cmd", cmd);
+  });
+program
+  .version(`my-cli-version ${require("../package.json").version}`) //版本号
+  .usage("<command> [options]");
+
+//解析用户的命令行参数
+program.parse(process.argv);
+// 22 命令行交互的功能 inquirer
+// 3 将模板下载下来 download-git-repo
+// 4 通过用户交互的方式，将用户选择的配置信息写入到package.json中  metalsmith
