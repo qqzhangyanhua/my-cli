@@ -5,19 +5,52 @@ console.log("12333");
 //1 配制可执行的命令 commander
 
 const program = require("commander");
+
 //核心功能  1创建项目,2更改配制文件, 3 ui界面
 
+const cleanArgs = (cmd) => {
+  const args = {};
+  cmd.options.forEach((o) => {
+    const key = o.long.replace(/^--/, "");
+    if (typeof cmd[key] !== "function") args[key] = cmd[key];
+  });
+};
 program
   .command("create <app-name>")
   .description("create a new project powered by zhu-cli-service")
   .option("-f, --force", "overwrite target directory if it exists")
   .action((name, cmd) => {
-    console.log("name", name);
-    console.log("cmd", cmd);
+    require("../lib/create")(name, cmd); //需要提取这个cmd中的属性
   });
+// my-cli config --set a 1
+// my-cli config --get a
+program
+  .command("config [value]")
+  .description("inset and modify the config")
+  .option("-g, --get <path>", "get value from option")
+  .option("-s, --set <path> <value>", "set option value")
+  .option("-d, --delete <path>", "delete option from config")
+  .action((value, cmd) => {
+    console.log("name:", value);
+    console.log("cmd:", cmd);
+  });
+
+// my-cli ui --port 8080
+program
+  .command("ui")
+  .description("start zhu-cli ui")
+  .option("-p, --port <port>", "Port used for the UI Server")
+  .action((cmd) => {
+    console.log("cmd:", cmd);
+  });
+
 program
   .version(`my-cli-version ${require("../package.json").version}`) //版本号
   .usage("<command> [options]");
+
+program.on("--help", function () {
+  console.log("111111111111111111111111111");
+});
 
 //解析用户的命令行参数
 program.parse(process.argv);
