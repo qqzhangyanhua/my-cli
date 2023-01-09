@@ -14,3 +14,6 @@ git push --tags
 git tag -a tag_name -m "tag 的描述语"
 通过 tag 的名字，将 tag 推送到远程
 git push -u origin tag_name
+
+获取当前目录下的文件
+https://api.github.com/repos/typecho-fans/plugins/contents/
